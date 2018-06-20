@@ -43,7 +43,7 @@ class MVELRuleDefinitionReader {
     }
 
     List<MVELRuleDefinition> readAll(Reader reader) {
-        List<MVELRuleDefinition> ruleDefinitions = new ArrayList<>();
+        List<MVELRuleDefinition> ruleDefinitions = new ArrayList<MVELRuleDefinition>();
         Iterable<Object> rules = yaml.loadAll(reader);
         for (Object rule : rules) {
             Map<String, Object> map = (Map<String, Object>) rule;

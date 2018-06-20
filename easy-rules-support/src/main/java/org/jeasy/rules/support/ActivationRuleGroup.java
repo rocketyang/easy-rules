@@ -42,7 +42,7 @@ public class ActivationRuleGroup extends CompositeRule {
      * Create an activation rule group.
      */
     public ActivationRuleGroup() {
-        rules = new TreeSet<>(rules);
+        rules = new TreeSet<Rule>(rules);
     }
 
     /**
@@ -52,7 +52,7 @@ public class ActivationRuleGroup extends CompositeRule {
      */
     public ActivationRuleGroup(String name) {
         super(name);
-        rules = new TreeSet<>(rules);
+        rules = new TreeSet<Rule>(rules);
     }
 
     /**
@@ -63,7 +63,7 @@ public class ActivationRuleGroup extends CompositeRule {
      */
     public ActivationRuleGroup(String name, String description) {
         super(name, description);
-        rules = new TreeSet<>(rules);
+        rules = new TreeSet<Rule>(rules);
     }
 
     /**
@@ -75,7 +75,7 @@ public class ActivationRuleGroup extends CompositeRule {
      */
     public ActivationRuleGroup(String name, String description, int priority) {
         super(name, description, priority);
-        rules = new TreeSet<>(rules);
+        rules = new TreeSet<Rule>(rules);
     }
 
     @Override

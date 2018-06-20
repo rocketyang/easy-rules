@@ -27,6 +27,7 @@ import org.jeasy.rules.support.UnitRuleGroup;
 
 public class FizzBuzzRule extends UnitRuleGroup {
 
+
     public FizzBuzzRule(Object... rules) {
         for (Object rule : rules) {
             addRule(rule);

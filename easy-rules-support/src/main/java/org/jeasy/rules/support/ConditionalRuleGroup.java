@@ -88,7 +88,7 @@ public class ConditionalRuleGroup extends CompositeRule {
      */
     @Override
     public boolean evaluate(Facts facts) {
-        successfulEvaluations = new HashSet<>();
+        successfulEvaluations = new HashSet<Rule>();
         conditionalRule = getRuleWithHighestPriority();
         if (conditionalRule.evaluate(facts)) {
             for (Rule rule : rules) {
@@ -128,7 +128,7 @@ public class ConditionalRuleGroup extends CompositeRule {
     }
 
     private List<Rule> sortRules() {
-        List<Rule> copy = new ArrayList<>(rules);
+        List<Rule> copy = new ArrayList<Rule>(rules);
         Collections.sort(copy, new Comparator<Rule>() {
             @Override
             public int compare(Rule o1, Rule o2) {

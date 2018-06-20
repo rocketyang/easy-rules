@@ -37,14 +37,14 @@ public class FizzBuzzWithEasyRules {
 
         // create rules
         Rules rules = new Rules();
-        rules.register(new FizzRule());
-        rules.register(new BuzzRule());
+      //  rules.register(new FizzRule());
+     //   rules.register(new BuzzRule());
         rules.register(new FizzBuzzRule(new FizzRule(), new BuzzRule()));
-        rules.register(new NonFizzBuzzRule());
+      //  rules.register(new NonFizzBuzzRule());
 
         // fire rules
         Facts facts = new Facts();
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 10; i++) {
             facts.put("number", i);
             fizzBuzzEngine.fire(rules, facts);
             System.out.println();

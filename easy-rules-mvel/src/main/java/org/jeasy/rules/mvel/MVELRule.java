@@ -40,7 +40,7 @@ import java.util.List;
 public class MVELRule extends BasicRule {
 
     private Condition condition = Condition.FALSE;
-    private List<Action> actions = new ArrayList<>();
+    private List<Action> actions = new ArrayList<Action>();
 
     /**
      * Create a new MVEL rule.
