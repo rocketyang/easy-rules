@@ -78,8 +78,8 @@ public class RuleProxy implements InvocationHandler {
         return result;
     }
 
-    @Override
-    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+/*    @Override
+   public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         String methodName = method.getName();
         switch (methodName) {
             case "getName":
@@ -103,6 +103,34 @@ public class RuleProxy implements InvocationHandler {
             default:
                 return null;
         }
+    }*/
+    
+    @Override
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+        String methodName = method.getName();
+        if (methodName.equals("getName")) {
+        	return getRuleName();
+        }
+        else if (methodName.equals("getDescription")) {
+        	return getRuleDescription();
+       } else if (methodName.equals("getPriority")) {
+    	   return getRulePriority();
+       } else if (methodName.equals("compareTo")) {
+    	   return compareToMethod(args);
+       } else if (methodName.equals("evaluate")) {
+    	   return evaluateMethod(args);
+ 
+       } else if (methodName.equals("execute")) {
+    	   return executeMethod(args);
+       } else if (methodName.equals("equals")) {
+    	   return equalsMethod(args);
+       } else if (methodName.equals("hashCode")) {
+    	   return hashCodeMethod();
+       } else if (methodName.equals("toString")) {
+    	   return toStringMethod();
+       } else {
+    	   return null;
+       }
     }
 
     private Object evaluateMethod(final Object[] args) throws IllegalAccessException, InvocationTargetException {
@@ -140,7 +168,7 @@ public class RuleProxy implements InvocationHandler {
         }
     }
     private List<Object> getActualParameters(Method method, Facts facts) {
-        List<Object> actualParameters = new ArrayList<>();
+        List<Object> actualParameters = new ArrayList<Object>();
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();
         for (Annotation[] annotations : parameterAnnotations) {
             if (annotations.length == 1) {
@@ -221,7 +249,7 @@ public class RuleProxy implements InvocationHandler {
         Method[] methods = getMethods();
         for (Method method : methods) {
             if (method.isAnnotationPresent(Priority.class)) {
-                priority = (int) method.invoke(target);
+                priority = ((Integer) method.invoke(target)).intValue();
                 break;
             }
         }
@@ -240,7 +268,7 @@ public class RuleProxy implements InvocationHandler {
 
     private Set<ActionMethodOrderBean> getActionMethodBeans() {
         Method[] methods = getMethods();
-        Set<ActionMethodOrderBean> actionMethodBeans = new TreeSet<>();
+        Set<ActionMethodOrderBean> actionMethodBeans = new TreeSet<ActionMethodOrderBean>();
         for (Method method : methods) {
             if (method.isAnnotationPresent(Action.class)) {
                 Action actionAnnotation = method.getAnnotation(Action.class);

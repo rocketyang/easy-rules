@@ -67,9 +67,9 @@ public final class DefaultRulesEngine implements RulesEngine {
      */
     public DefaultRulesEngine(final RulesEngineParameters parameters) {
         this.parameters = parameters;
-        this.ruleListeners = new ArrayList<>();
+        this.ruleListeners = new ArrayList<RuleListener>();
         this.ruleListeners.add(new DefaultRuleListener());
-        this.rulesEngineListeners = new ArrayList<>();
+        this.rulesEngineListeners = new ArrayList<RulesEngineListener>();
         this.rulesEngineListeners.add(new DefaultRulesEngineListener(parameters));
     }
 
@@ -146,7 +146,7 @@ public final class DefaultRulesEngine implements RulesEngine {
 
     private Map<Rule, Boolean> doCheck(Rules rules, Facts facts) {
         LOGGER.info("Checking rules");
-        Map<Rule, Boolean> result = new HashMap<>();
+        Map<Rule, Boolean> result = new HashMap<Rule, Boolean>();
         for (Rule rule : rules) {
             if (shouldBeEvaluated(rule, facts)) {
                 result.put(rule, rule.evaluate(facts));

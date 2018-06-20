@@ -33,7 +33,7 @@ import java.util.List;
 class DefaultRule extends BasicRule {
 
     private Condition condition = Condition.FALSE;
-    private List<Action> actions = new ArrayList<>();
+    private List<Action> actions = new ArrayList<Action>();
 
     DefaultRule(String name, String description, int priority, Condition condition, List<Action> actions) {
         super(name, description, priority);

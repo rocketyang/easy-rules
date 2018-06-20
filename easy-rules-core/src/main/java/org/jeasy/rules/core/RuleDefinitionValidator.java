@@ -155,7 +155,7 @@ class RuleDefinitionValidator {
 
     private List<Method> getMethodsAnnotatedWith(final Class<? extends Annotation> annotation, final Object rule) {
         Method[] methods = getMethods(rule);
-        List<Method> annotatedMethods = new ArrayList<>();
+        List<Method> annotatedMethods = new ArrayList<Method>();
         for (Method method : methods) {
             if (method.isAnnotationPresent(annotation)) {
                 annotatedMethods.add(method);

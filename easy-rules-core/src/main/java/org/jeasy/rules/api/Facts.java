@@ -34,7 +34,7 @@ import static java.lang.String.format;
  */
 public class Facts implements Iterable<Map.Entry<String, Object>> {
 
-    private Map<String, Object> facts = new HashMap<>();
+    private Map<String, Object> facts = new HashMap<String, Object>();
 
     /**
      * Put a fact in the working memory.
@@ -48,7 +48,8 @@ public class Facts implements Iterable<Map.Entry<String, Object>> {
      *         previously associated <tt>null</tt> with <tt>name</tt>.)
      */
     public Object put(String name, Object fact) {
-        Objects.requireNonNull(name);
+        //Objects.requireNonNull(name);
+        //Assert.assertNotNull(name);
         return facts.put(name, fact);
     }
 
@@ -62,7 +63,7 @@ public class Facts implements Iterable<Map.Entry<String, Object>> {
      *         previously associated <tt>null</tt> with <tt>name</tt>.)
      */
     public Object remove(String name) {
-        Objects.requireNonNull(name);
+        //Objects.requireNonNull(name);
         return facts.remove(name);
     }
 
@@ -75,7 +76,7 @@ public class Facts implements Iterable<Map.Entry<String, Object>> {
      */
     @SuppressWarnings("unchecked")
     public <T> T get(String name) {
-        Objects.requireNonNull(name);
+        //Objects.requireNonNull(name);
         return (T) facts.get(name);
     }
 
@@ -96,7 +97,7 @@ public class Facts implements Iterable<Map.Entry<String, Object>> {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("[");
-        List<Map.Entry<String, Object>> entries = new ArrayList<>(facts.entrySet());
+        List<Map.Entry<String, Object>> entries = new ArrayList<Map.Entry<String, Object>>(facts.entrySet());
         for (int i = 0; i < entries.size(); i++) {
             Map.Entry<String, Object> entry = entries.get(i);
             stringBuilder.append(format(" { %s : %s } ", entry.getKey(), String.valueOf(entry.getValue())));

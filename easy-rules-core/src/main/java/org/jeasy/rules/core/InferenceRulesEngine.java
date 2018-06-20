@@ -62,8 +62,8 @@ public final class InferenceRulesEngine implements RulesEngine {
     public InferenceRulesEngine(RulesEngineParameters parameters) {
         this.parameters = parameters;
         delegate = new DefaultRulesEngine(parameters);
-        ruleListeners = new ArrayList<>();
-        rulesEngineListeners = new ArrayList<>();
+        ruleListeners = new ArrayList<RuleListener>();
+        rulesEngineListeners = new ArrayList<RulesEngineListener>();
     }
 
     @Override
@@ -96,7 +96,7 @@ public final class InferenceRulesEngine implements RulesEngine {
     }
 
     private Set<Rule> selectCandidates(Rules rules, Facts facts) {
-        Set<Rule> candidates = new TreeSet<>();
+        Set<Rule> candidates = new TreeSet<Rule>();
         for (Rule rule : rules) {
             if (rule.evaluate(facts)) {
                 candidates.add(rule);

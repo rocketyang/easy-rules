@@ -48,7 +48,7 @@ public class RulesTest {
     public void rulesMustHaveUniqueName() throws Exception {
         Rule r1 = new BasicRule("rule");
         Rule r2 = new BasicRule("rule");
-        Set<Rule> ruleSet = new HashSet<>();
+        Set<Rule> ruleSet = new HashSet<Rule>();
         ruleSet.add(r1);
         ruleSet.add(r2);
 
@@ -70,7 +70,7 @@ public class RulesTest {
     public void unregisterByName() throws Exception {
         Rule r1 = new BasicRule("rule1");
         Rule r2 = new BasicRule("rule2");
-        Set<Rule> ruleSet = new HashSet<>();
+        Set<Rule> ruleSet = new HashSet<Rule>();
         ruleSet.add(r1);
         ruleSet.add(r2);
 
@@ -83,7 +83,7 @@ public class RulesTest {
     @Test
     public void unregisterByNameNonExistingRule() throws Exception {
         Rule r1 = new BasicRule("rule1");
-        Set<Rule> ruleSet = new HashSet<>();
+        Set<Rule> ruleSet = new HashSet<Rule>();
         ruleSet.add(r1);
         
         rules = new Rules(ruleSet);
