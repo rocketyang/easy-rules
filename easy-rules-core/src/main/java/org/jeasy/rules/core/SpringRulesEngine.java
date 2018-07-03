@@ -23,18 +23,14 @@
  */
 package org.jeasy.rules.core;
 
+import org.jeasy.rules.api.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.jeasy.rules.api.Facts;
-import org.jeasy.rules.api.Rule;
-import org.jeasy.rules.api.RuleListener;
-import org.jeasy.rules.api.RulesEngineListener;
-import org.jeasy.rules.api.Rules;
-import org.jeasy.rules.api.RulesEngine;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Default {@link RulesEngine} implementation.
@@ -57,7 +53,7 @@ public final class SpringRulesEngine implements RulesEngine {
 	/**
      * Create a new {@link DefaultRulesEngine} with default parameters.
      */
-    public DefaultRulesEngine() {
+    public SpringRulesEngine() {
         this(new RulesEngineParameters());
     }
 
@@ -66,7 +62,7 @@ public final class SpringRulesEngine implements RulesEngine {
      *
      * @param parameters of the engine
      */
-    public DefaultRulesEngine(final RulesEngineParameters parameters) {
+    public SpringRulesEngine(final RulesEngineParameters parameters) {
         this.parameters = parameters;
         this.ruleListeners = new ArrayList<RuleListener>();
         this.ruleListeners.add(new DefaultRuleListener());

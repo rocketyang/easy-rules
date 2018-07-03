@@ -18,13 +18,14 @@ public class SampleRule {
 
     @Action
     public void action() throws Exception {
-        try {
+        throw new NullPointerException();
+        /**try {
             subInventory();
             saveDiscount();
             saveSample();
         } catch(Exception e) {
             throw e;
-        }
+        } */
     }
 
     /**

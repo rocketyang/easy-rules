@@ -5,6 +5,9 @@ import org.jeasy.rules.api.Rules;
 import org.jeasy.rules.api.RulesEngine;
 import org.jeasy.rules.core.DefaultRulesEngine;
 import org.jeasy.rules.core.RulesEngineParameters;
+import org.jeasy.rules.tutorials.fizzbuzz.BuzzRule;
+import org.jeasy.rules.tutorials.fizzbuzz.NonFizzBuzzRule;
+import org.jeasy.rules.tutorials.helloworld.HelloWorldRule;
 
 /**
  * Created by yonching on 6/20/18.
@@ -19,13 +22,20 @@ public class SampleRules {
         Rules rules = new Rules();
         rules.register(new SampleRule());
         rules.register(new SampleRule2());
+        rules.register(new HelloWorldRule());
+        rules.register(new BuzzRule());
+        rules.register(new NonFizzBuzzRule());
 
         Sample sample = new Sample();
-        sample.setSampleId("1");
+        //sample.setSampleId("1");
         // fire rules
         Facts facts = new Facts();
         facts.put("sample", sample);
-        sampleEngine.fire(rules, facts);
+        try {
+            sampleEngine.fire(rules, facts);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 
