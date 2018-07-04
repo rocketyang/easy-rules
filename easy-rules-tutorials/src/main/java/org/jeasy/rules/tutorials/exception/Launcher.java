@@ -26,8 +26,8 @@ package org.jeasy.rules.tutorials.exception;
 import org.jeasy.rules.api.Facts;
 import org.jeasy.rules.api.Rules;
 import org.jeasy.rules.api.RulesEngine;
-import org.jeasy.rules.core.DefaultRulesEngine;
 import org.jeasy.rules.core.RulesEngineParameters;
+import org.jeasy.rules.core.SpringRulesEngine;
 
 public class Launcher {
 
@@ -35,7 +35,7 @@ public class Launcher {
         RulesEngineParameters parameters = new RulesEngineParameters().skipOnFirstFailedRule(true);
 
         // create a rules engine and fire rules on known facts
-        RulesEngine rulesEngine = new DefaultRulesEngine(parameters);
+        RulesEngine rulesEngine = new SpringRulesEngine(parameters);
         rulesEngine.getRuleListeners().add(new RuleExceptionListener());
 
         // create facts
@@ -43,10 +43,12 @@ public class Launcher {
 
         // create rules
         Rules rules = new Rules();
-        rules.register(new ExceptionRule());
+        rules.register(new ExceptionRule2());
 
 
         rulesEngine.fire(rules, facts);
+
+        //Exception e = (Exception)facts.get("exception");
 
         assert "rule exception".equals(((Exception)facts.get("exception")).getMessage());
     }
