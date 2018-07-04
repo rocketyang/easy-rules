@@ -13,6 +13,7 @@ public class SampleRule {
     @Condition
     public boolean condition(@Fact("sample") Sample sample) {
         //
+
         return sample.getExist() && sample.getAvailable() && sample.getInventory() && !sample.getRepetition();
     }
 

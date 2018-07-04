@@ -29,7 +29,8 @@ public class Sample {
 
 
     public Boolean getExist() {
-        return isExist;
+        throw new NoSuchMethodError();
+     //   return isExist;
     }
 
     public void setExist(Boolean exist) {
