@@ -133,7 +133,7 @@ public class RuleProxy implements InvocationHandler {
        }
     }
 
-    private Object evaluateMethod(final Object[] args) throws IllegalAccessException, InvocationTargetException {
+    private Object evaluateMethod(final Object[] args) throws Exception {
         Facts facts = (Facts) args[0];
         Method conditionMethod = getConditionMethod();
         try {
@@ -149,7 +149,7 @@ public class RuleProxy implements InvocationHandler {
         }
     }
 
-    private Object executeMethod(final Object[] args) throws IllegalAccessException, InvocationTargetException {
+    private Object executeMethod(final Object[] args) throws Exception {
         Facts facts = (Facts) args[0];
         for (ActionMethodOrderBean actionMethodBean : getActionMethodBeans()) {
             Method actionMethod = actionMethodBean.getMethod();
