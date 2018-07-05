@@ -34,7 +34,7 @@ public class FizzBuzzRule extends UnitRuleGroup {
         }
     }
 
-    @Override
+
     public int getPriority() {
         return 0;
     }

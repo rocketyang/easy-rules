@@ -28,10 +28,16 @@ import org.jeasy.rules.api.Rules;
 import org.jeasy.rules.api.RulesEngine;
 import org.jeasy.rules.core.RulesEngineParameters;
 import org.jeasy.rules.core.SpringRulesEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class Launcher {
+	
+    private static final Logger LOGGER = LoggerFactory.getLogger(Launcher.class);
 
     public static void main(String[] args) {
+
         RulesEngineParameters parameters = new RulesEngineParameters().skipOnFirstFailedRule(true);
 
         // create a rules engine and fire rules on known facts
@@ -43,13 +49,13 @@ public class Launcher {
 
         // create rules
         Rules rules = new Rules();
-        rules.register(new ExceptionRule2());
+        rules.register(new ExceptionRule());
 
 
         rulesEngine.fire(rules, facts);
 
         //Exception e = (Exception)facts.get("exception");
-
-        assert "rule exception".equals(((Exception)facts.get("exception")).getMessage());
+        LOGGER.info(facts.toString());
+     
     }
 }

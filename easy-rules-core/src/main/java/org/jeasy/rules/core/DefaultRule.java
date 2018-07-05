@@ -30,7 +30,7 @@ import org.jeasy.rules.api.Facts;
 import java.util.ArrayList;
 import java.util.List;
 
-class DefaultRule extends BasicRule {
+public class DefaultRule extends BasicRule {
 
     private Condition condition = Condition.FALSE;
     private List<Action> actions = new ArrayList<Action>();

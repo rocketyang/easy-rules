@@ -1,5 +1,8 @@
 package org.jeasy.rules.tutorials.exception;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.UndeclaredThrowableException;
+
 import org.jeasy.rules.api.Facts;
 import org.jeasy.rules.api.Rule;
 import org.jeasy.rules.api.RuleListener;
@@ -40,7 +43,12 @@ public class RuleExceptionListener implements RuleListener {
 
     @Override
     public void onFailure(final Rule rule, final Facts facts, final Exception exception) {
-        LOGGER.info("Rule '" + rule.getName() + "' performed with error", exception);
-        facts.put("exception", exception);
+    	Throwable ruleException = exception;
+    	if (exception instanceof UndeclaredThrowableException && exception.getCause() instanceof InvocationTargetException) {
+    		ruleException = exception.getCause().getCause();
+    	} 	
+    	if (ruleException instanceof RuleException) {
+    		facts.put("exception", (RuleException)ruleException);
+    	}
     }
 }

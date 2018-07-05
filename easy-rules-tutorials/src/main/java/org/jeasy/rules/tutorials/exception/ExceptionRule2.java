@@ -6,8 +6,9 @@ import org.jeasy.rules.core.BasicRule;
 /**
  * Created by yonching on 7/4/18.
  */
+
 public class ExceptionRule2 extends BasicRule  {
-   // protected int priority = 3;
+
     public boolean evaluate(Facts facts)  {
         throw new RuleException("rule exception");
     }
