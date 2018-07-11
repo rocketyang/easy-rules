@@ -29,16 +29,13 @@ import org.jeasy.rules.annotation.Priority;
 import org.jeasy.rules.api.Facts;
 import org.jeasy.rules.api.Rule;
 import org.jeasy.rules.api.Rules;
-import org.jeasy.rules.core.DefaultRulesEngine;
+
+import org.jeasy.rules.core.SpringRulesEngine;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -56,7 +53,7 @@ public class LoopRuleGroupTest {
     private Facts facts = new Facts();
     private Rules rules = new Rules();
 
-    private DefaultRulesEngine rulesEngine = new DefaultRulesEngine();
+    private SpringRulesEngine rulesEngine = new SpringRulesEngine();
 
     private LoopRuleGroup loopRuleGroup;
 
@@ -188,7 +185,7 @@ public class LoopRuleGroupTest {
     	 rulesEngine.fire(rules, facts);
     	 assertThat(myRule.isExecuted()).isTrue();
     	 assertThat(myOtherRule.isExecuted()).isFalse();
-    	 assertThat(facts.get("sum")).isEqualTo(9);
+    	 assertThat(facts.get("sum")).isEqualTo(10);
     }
 
     @org.jeasy.rules.annotation.Rule

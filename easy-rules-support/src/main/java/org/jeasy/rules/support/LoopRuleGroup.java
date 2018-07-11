@@ -112,11 +112,11 @@ public class LoopRuleGroup extends CompositeRule {
 		//设置循环上限，防止程序bug导致死循环
 		int maxLoop = 1000;
 		do {
-	        this.conditionalRule.execute(facts);
 			candidates = this.selectCandidates(facts);
 			for (Rule rule : candidates) {
 				rule.execute(facts);
 			}
+			this.conditionalRule.execute(facts);
 			maxLoop--;
 		} while (!candidates.isEmpty() && maxLoop > 0);
 

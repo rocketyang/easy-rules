@@ -104,32 +104,37 @@ public class RuleProxy implements InvocationHandler {
         }
     }*/
     
-    @Override
+	@Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         String methodName = method.getName();
+        Object result = null;
         if (methodName.equals("getName")) {
-        	return getRuleName();
+        	result = getRuleName();
         }
         else if (methodName.equals("getDescription")) {
-        	return getRuleDescription();
+        	result = getRuleDescription();
        } else if (methodName.equals("getPriority")) {
-    	   return getRulePriority();
+    	   result = getRulePriority();
        } else if (methodName.equals("compareTo")) {
-    	   return compareToMethod(args);
+    	   result = compareToMethod(args);
        } else if (methodName.equals("evaluate")) {
-    	   return evaluateMethod(args);
- 
+    	   this.beforeEvaluate(args);
+    	   result = evaluateMethod(args);
+    	   this.afterEvaluate(result);
        } else if (methodName.equals("execute")) {
-    	   return executeMethod(args);
+    	   this.beforeExecute(args);
+    	   result = executeMethod(args);
+    	   this.afterExecute(args);
        } else if (methodName.equals("equals")) {
-    	   return equalsMethod(args);
+    	   result = equalsMethod(args);
        } else if (methodName.equals("hashCode")) {
-    	   return hashCodeMethod();
+    	   result = hashCodeMethod();
        } else if (methodName.equals("toString")) {
-    	   return toStringMethod();
+    	   result = toStringMethod();
        } else {
-    	   return null;
+    	   result = null;
        }
+       return result;
     }
 
     private Object evaluateMethod(final Object[] args) throws Exception {
@@ -146,6 +151,19 @@ public class RuleProxy implements InvocationHandler {
             String error = "Types of injected facts in method '%s' in rule '%s' do not match parameters types";
             throw new RuntimeException(format(error, conditionMethod.getName(), getTargetClass().getName()), e);
         }
+    }
+    
+    private void beforeEvaluate(final Object[] args) {
+    	LOGGER.info("{} before evaluate, has facts : {}", getRuleName(), Arrays.toString(args));
+    }
+    private void afterEvaluate(final Object result) {
+    	LOGGER.info("{} after evaluate, has result: {}", getRuleName(), result);
+    }
+    private void beforeExecute(final Object[] args) {
+    	LOGGER.info("{} before execute, has method params : {}", getRuleName(), Arrays.toString(args));
+    }
+    private void afterExecute(final Object[] args) {
+    	LOGGER.info("{} after execute, has facts: {}", getRuleName(),  Arrays.toString(args));
     }
 
     private Object executeMethod(final Object[] args) throws Exception {
@@ -333,5 +351,6 @@ public class RuleProxy implements InvocationHandler {
     private Class<?> getTargetClass() {
         return target.getClass();
     }
+    
 
 }

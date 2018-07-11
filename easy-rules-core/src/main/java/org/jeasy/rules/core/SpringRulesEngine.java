@@ -65,7 +65,7 @@ public final class SpringRulesEngine implements RulesEngine {
     public SpringRulesEngine(final RulesEngineParameters parameters) {
         this.parameters = parameters;
         this.ruleListeners = new ArrayList<RuleListener>();
-        this.ruleListeners.add(new DefaultRuleListener());
+        //this.ruleListeners.add(new DefaultRuleListener());
         this.rulesEngineListeners = new ArrayList<RulesEngineListener>();
         this.rulesEngineListeners.add(new DefaultRulesEngineListener(parameters));
     }

@@ -56,7 +56,7 @@ class DefaultRulesEngineListener implements RulesEngineListener {
 
     @Override
     public void afterExecute(Rules rules, Facts facts) {
-
+    	 log(facts);
     }
 
     private void logEngineParameters() {
