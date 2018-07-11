@@ -45,8 +45,6 @@ import java.util.List;
 public class LoopRuleGroup extends CompositeRule {
 
 	private Rule conditionalRule;
-	private List<Rule> subRules;
-
 	/**
 	 * create a loop rule group 
 	 */
