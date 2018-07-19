@@ -110,7 +110,7 @@ public class LoopRuleGroup extends CompositeRule {
 		
 		List<Rule> candidates = null;
 		//设置循环上限，防止程序bug导致死循环
-		int maxLoop = 1000;
+		Integer maxLoop = facts.get("maxLoop") == null ? 1000 : (Integer) facts.get("maxLoop");
 		do {
 			candidates = this.selectCandidates(facts);
 			for (Rule rule : candidates) {

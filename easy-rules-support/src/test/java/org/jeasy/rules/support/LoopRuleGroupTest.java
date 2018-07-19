@@ -176,6 +176,7 @@ public class LoopRuleGroupTest {
     	 MyConditionRule myConditionRule = new MyConditionRule(100);
     	 AccumulateRule accumulateRule = new AccumulateRule(4);
     	 facts.put("loops", 10);
+         facts.put("maxLoop", 10);
     	 loopRuleGroup = new LoopRuleGroup("myLoopRule", "loop rule description");
     	 loopRuleGroup.addRule(myRule);
     	 loopRuleGroup.addRule(myOtherRule);
