@@ -113,7 +113,6 @@ public class LoopRuleGroup extends CompositeRule {
 		Integer maxLoop = facts.get("maxLoop") == null ? 1000 : (Integer) facts.get("maxLoop");
 		do {
 			candidates = this.selectCandidates(facts);
-			this.conditionalRule.execute(facts);
 			for (Rule rule : candidates) {
 				rule.execute(facts);
 			}
@@ -126,17 +125,19 @@ public class LoopRuleGroup extends CompositeRule {
      * @param facts The facts
      * @return rules that evaluated to ture 
      */
-	private List<Rule> selectCandidates(Facts facts) {
+	private List<Rule> selectCandidates(Facts facts) throws Exception {
 
 		List<Rule> candidates = new ArrayList<Rule>();
-		if (!conditionalRule.evaluate(facts)) {
+		if (conditionalRule.evaluate(facts)) {
+			conditionalRule.execute(facts);
+			for (Rule rule : this.rules) {
+				if (rule != conditionalRule && rule.evaluate(facts)) {
+					candidates.add(rule);
+				}
+			}
 			return candidates;
 		}
-		for (Rule rule : this.rules) {
-			if (rule != conditionalRule && rule.evaluate(facts)) {
-				candidates.add(rule);
-			}
-		}
+
 
 		return candidates;
 	}
