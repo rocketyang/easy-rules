@@ -25,12 +25,13 @@ package org.jeasy.rules.support;
 
 import org.jeasy.rules.api.Facts;
 import org.jeasy.rules.api.Rule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 
 /**
  * 
@@ -44,9 +45,12 @@ import java.util.List;
  */
 public class LoopRuleGroup extends CompositeRule {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(LoopRuleGroup.class);
+
 	private Rule conditionalRule;
+
 	/**
-	 * create a loop rule group 
+	 * create a loop rule group
 	 */
 	public LoopRuleGroup() {
 	}
@@ -54,7 +58,8 @@ public class LoopRuleGroup extends CompositeRule {
 	/**
 	 * Create a loop rule group.
 	 *
-	 * @param name of the loop rule
+	 * @param name
+	 *            of the loop rule
 	 */
 	public LoopRuleGroup(String name) {
 		super(name);
@@ -63,8 +68,10 @@ public class LoopRuleGroup extends CompositeRule {
 	/**
 	 * Create a loop rule group.
 	 *
-	 * @param name of the loop rule
-	 * @param description of the loop rule
+	 * @param name
+	 *            of the loop rule
+	 * @param description
+	 *            of the loop rule
 	 */
 	public LoopRuleGroup(String name, String description) {
 		super(name, description);
@@ -73,18 +80,23 @@ public class LoopRuleGroup extends CompositeRule {
 	/**
 	 * Create a loop rule group.
 	 *
-	 * @param name of the loop  rule
-	 * @param description of the loop rule
-	 * @param priority of the composite rule
+	 * @param name
+	 *            of the loop rule
+	 * @param description
+	 *            of the loop rule
+	 * @param priority
+	 *            of the composite rule
 	 */
 	public LoopRuleGroup(String name, String description, int priority) {
 		super(name, description, priority);
 	}
 
 	/**
-	 * a path rule will trigger all candidate rule if the path rule's condition is true.
+	 * a path rule will trigger all candidate rule if the path rule's condition is
+	 * true.
 	 * 
-	 * @param factsThe facts.date
+	 * @param factsThe
+	 *            facts.date
 	 * @return true if the path rules condition is true.
 	 */
 	@Override
@@ -107,62 +119,70 @@ public class LoopRuleGroup extends CompositeRule {
 	 */
 	@Override
 	public void execute(Facts facts) throws Exception {
-		
+
 		List<Rule> candidates = null;
-		//设置循环上限，防止程序bug导致死循环
-		Integer maxLoop = facts.get("maxLoop") == null ? 1000 : (Integer) facts.get("maxLoop");
+		Integer maxLoop = facts.get("maxLoop");
+		if (maxLoop == null) {
+			LOGGER.info("maxLoop is not initialized");
+			return;
+		}
+		if (!conditionalRule.evaluate(facts)) {
+			LOGGER.info("condition rule evaluate to false and escape the loop body");
+			return;
+		}
 		do {
+			conditionalRule.execute(facts);
 			candidates = this.selectCandidates(facts);
 			for (Rule rule : candidates) {
 				rule.execute(facts);
 			}
 			maxLoop--;
+			facts.put("maxLoop", maxLoop);
 		} while (!candidates.isEmpty() && maxLoop > 0);
-
+		
+		facts.remove("maxLoop");
 	}
-    /**
-     * select rules that meet the condition
-     * @param facts The facts
-     * @return rules that evaluated to ture 
-     */
+
+	/**
+	 * select rules that meet the condition
+	 * 
+	 * @param facts
+	 *            The facts
+	 * @return rules that evaluated to true
+	 */
 	private List<Rule> selectCandidates(Facts facts) throws Exception {
 
 		List<Rule> candidates = new ArrayList<Rule>();
-		if (conditionalRule.evaluate(facts)) {
-			conditionalRule.execute(facts);
-			for (Rule rule : this.rules) {
-				if (rule != conditionalRule && rule.evaluate(facts)) {
-					candidates.add(rule);
-				}
+		for (Rule rule : this.rules) {
+			if (rule != conditionalRule && rule.evaluate(facts)) {
+				candidates.add(rule);
 			}
-			return candidates;
 		}
-
-
 		return candidates;
+
 	}
 
 	private Rule getRuleWithHighestPriority() {
- 
-        List<Rule> copy = sortRules();
-        // make sure that we only have one rule with the highest priority
-        Rule highest = copy.get(0);
-        if (copy.size() > 1 && copy.get(1).getPriority() == highest.getPriority()) {
-           throw new IllegalArgumentException("Only one rule can have highest priority");
-        }
-        return highest;
+
+		List<Rule> copy = sortRules();
+		// make sure that we only have one rule with the highest priority
+		Rule highest = copy.get(0);
+		if (copy.size() > 1 && copy.get(1).getPriority() == highest.getPriority()) {
+			throw new IllegalArgumentException("Only one rule can have highest priority");
+		}
+		return highest;
 	}
 
-    private List<Rule> sortRules() {
-        List<Rule> copy = new ArrayList<Rule>(rules);
-        Collections.sort(copy, new Comparator<Rule>() {
-            @Override
-            public int compare(Rule o1, Rule o2) {
-                Integer i2 = o2.getPriority();
-                return i2.compareTo(o1.getPriority());
-            }
-        });
-        return copy;
-    }
+	private List<Rule> sortRules() {
+		List<Rule> copy = new ArrayList<Rule>(rules);
+		Collections.sort(copy, new Comparator<Rule>() {
+			@Override
+			public int compare(Rule o1, Rule o2) {
+				Integer i2 = o2.getPriority();
+				return i2.compareTo(o1.getPriority());
+			}
+		});
+		return copy;
+	}
 
 }
