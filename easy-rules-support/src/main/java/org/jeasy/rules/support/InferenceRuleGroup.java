@@ -34,25 +34,21 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * 
- * A loop rule group is a composite rule where the rule with the highest
- * priority acts as a loop condition: if the rule with the highest priority
- * evaluates to true, then we try to evaluate the rest of the rules and execute
- * the ones that evaluate to true until no candidate can be chosen
  *
+ * 推理规则
  * @author rocket (rocket.yang@qq.com)
  *
  */
-public class LoopRuleGroup extends CompositeRule {
+public class InferenceRuleGroup extends CompositeRule {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LoopRuleGroup.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(InferenceRuleGroup.class);
 
 	private Rule conditionalRule;
 
 	/**
 	 * create a loop rule group
 	 */
-	public LoopRuleGroup() {
+	public InferenceRuleGroup() {
 	}
 
 	/**
@@ -61,7 +57,7 @@ public class LoopRuleGroup extends CompositeRule {
 	 * @param name
 	 *            of the loop rule
 	 */
-	public LoopRuleGroup(String name) {
+	public InferenceRuleGroup(String name) {
 		super(name);
 	}
 
@@ -73,7 +69,7 @@ public class LoopRuleGroup extends CompositeRule {
 	 * @param description
 	 *            of the loop rule
 	 */
-	public LoopRuleGroup(String name, String description) {
+	public InferenceRuleGroup(String name, String description) {
 		super(name, description);
 	}
 
@@ -87,7 +83,7 @@ public class LoopRuleGroup extends CompositeRule {
 	 * @param priority
 	 *            of the composite rule
 	 */
-	public LoopRuleGroup(String name, String description, int priority) {
+	public InferenceRuleGroup(String name, String description, int priority) {
 		super(name, description, priority);
 	}
 
@@ -154,7 +150,7 @@ public class LoopRuleGroup extends CompositeRule {
 
 		List<Rule> candidates = new ArrayList<Rule>();
 		for (Rule rule : this.rules) {
-			if (rule != conditionalRule) {
+			if (rule != conditionalRule && rule.evaluate(facts)) {
 				candidates.add(rule);
 			}
 		}
